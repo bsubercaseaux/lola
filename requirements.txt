@@ -1,5 +1,5 @@
 click
-gym
+gym==0.22.0
 mock
 numpy>=1.11
 dm-sonnet>=1.20

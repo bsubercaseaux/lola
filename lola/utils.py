@@ -67,7 +67,7 @@ def ortho_init(scale=1.0):
 
 
 def get_session():
-    return tf.get_default_session()
+    return tf.compat.v1.get_default_session()
 
 
 def var_shape(x):
@@ -99,12 +99,12 @@ class SetFromFlat(object):
         shapes = list(map(var_shape, var_list))
         total_size = np.sum([intprod(shape) for shape in shapes])
 
-        self.theta = theta = tf.placeholder(dtype, [total_size])
+        self.theta = theta = tf.compat.v1.placeholder(dtype, [total_size])
         start = 0
         assigns = []
         for (shape, v) in zip(shapes, var_list):
             size = intprod(shape)
-            assigns.append(tf.assign(v, tf.reshape(theta[start:start + size], shape)))
+            assigns.append(tf.compat.v1.assign(v, tf.reshape(theta[start:start + size], shape)))
             start += size
         self.op = tf.group(*assigns)
 

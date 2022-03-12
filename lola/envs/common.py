@@ -1,7 +1,7 @@
 import gym
 import numpy as np
 
-from gym.spaces import prng
+prng = np.random
 
 
 class OneHot(gym.Space):
@@ -12,7 +12,7 @@ class OneHot(gym.Space):
         self.n = n
 
     def sample(self):
-        return prng.np_random.multinomial(1, [1. / self.n] * self.n)
+        return prng.multinomial(1, [1. / self.n] * self.n)
 
     def contains(self, x):
         return isinstance(x, np.ndarray) and \

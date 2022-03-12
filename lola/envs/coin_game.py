@@ -5,8 +5,8 @@ import gym
 import numpy as np
 
 from gym.spaces import Discrete, Tuple
-from gym.spaces import prng
-
+# from gym.spaces import prng
+prng = np.random
 
 class CoinGameVec:
     """
@@ -33,17 +33,17 @@ class CoinGameVec:
 
     def reset(self):
         self.step_count = 0
-        self.red_coin = prng.np_random.randint(2, size=self.batch_size)
+        self.red_coin = prng.randint(2, size=self.batch_size)
         # Agent and coin positions
-        self.red_pos  = prng.np_random.randint(
+        self.red_pos  = prng.randint(
             self.grid_size, size=(self.batch_size, 2))
-        self.blue_pos = prng.np_random.randint(
+        self.blue_pos = prng.randint(
             self.grid_size, size=(self.batch_size, 2))
         self.coin_pos = np.zeros((self.batch_size, 2), dtype=np.int8)
         for i in range(self.batch_size):
             # Make sure coins don't overlap
             while self._same_pos(self.red_pos[i], self.blue_pos[i]):
-                self.blue_pos[i] = prng.np_random.randint(self.grid_size, size=2)
+                self.blue_pos[i] = prng.randint(self.grid_size, size=2)
             self._generate_coin(i)
         return self._generate_state()
 
@@ -52,7 +52,7 @@ class CoinGameVec:
         # Make sure coin has a different position than the agents
         success = 0
         while success < 2:
-            self.coin_pos[i] = prng.np_random.randint(self.grid_size, size=(2))
+            self.coin_pos[i] = prng.randint(self.grid_size, size=(2))
             success  = 1 - self._same_pos(self.red_pos[i],
                                           self.coin_pos[i])
             success += 1 - self._same_pos(self.blue_pos[i],
